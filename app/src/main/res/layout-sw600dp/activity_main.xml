@@ -3,15 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/phone_main"
+    android:orientation="horizontal"
+    android:id="@+id/tablet_main"
     tools:context=".MainActivity">
 
     <fragment
         android:id="@+id/recipe_list_fragment"
         android:name="com.example.givasneves.receitasculinarias.fragment.RecipeListFragment"
+        android:layout_width="250dp"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/recipe_content_fragment"
+        android:name="com.example.givasneves.receitasculinarias.fragment.RecipeContentFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </fragment>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

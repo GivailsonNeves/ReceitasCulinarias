@@ -1,5 +1,7 @@
 package com.example.givasneves.receitasculinarias.retrofit;
 
+import com.example.givasneves.receitasculinarias.model.Recipe;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -24,6 +26,6 @@ public class RetrofitInitializer {
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
-
+    public Services services = retrofit.create(Services.class);
 
 }
