@@ -1,6 +1,8 @@
 package com.example.givasneves.receitasculinarias;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,16 +17,22 @@ import com.example.givasneves.receitasculinarias.view.RecipeActivity;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnRecipeClickListener {
 
+    SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPref = this.getSharedPreferences("recipe", Context.MODE_PRIVATE);
     }
 
     @Override
     public void onItemClick(Recipe recipe) {
         Toast.makeText(this, recipe.name, Toast.LENGTH_SHORT).show();
         View view = findViewById(R.id.recipe_content_fragment);
+
+        sharedPref.edit()
+                .putString("selected", recipe.name);
 
         if( view == null ) {
 
