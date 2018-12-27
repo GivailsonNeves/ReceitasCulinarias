@@ -4,5 +4,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_load_recipes">Erro ao carregar lista de receitas</string>
+<<<<<<< HEAD
     <string name="tx_label_serve">Serve:</string>
+=======
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+>>>>>>> 03567e80dab3401954432f228b1b4279d9df5f01
 </resources>
