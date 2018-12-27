@@ -2,4 +2,7 @@
 <resources>
     <dimen name="item_distance_separator">10dp</dimen>
     <dimen name="default_padding">15dp</dimen>
+    <dimen name="label_spacing">5dp</dimen>
+    <dimen name="view_min_size">1dp</dimen>
+    <dimen name="title_font_size">24sp</dimen>
 </resources>

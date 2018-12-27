@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:background="@drawable/item_shadow"
@@ -8,8 +9,26 @@
     android:id="@+id/item_recipe"
     android:layout_marginBottom="@dimen/item_distance_separator"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/view_min_size"
+        android:layout_weight="1"
         android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tx_label_serve"/>
+        <TextView
+            android:paddingLeft="@dimen/label_spacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:id="@+id/tv_serving"/>
+    </LinearLayout>
 </LinearLayout>

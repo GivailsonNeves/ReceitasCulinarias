@@ -12,6 +12,10 @@ import com.example.givasneves.receitasculinarias.model.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeViewHolder> {
 
     private List<Recipe> recipes;
@@ -56,24 +60,25 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        private final View item;
         public int position;
-        private TextView tvName;
+
+        @BindView(R.id.tv_name) public TextView tvName;
+        @BindView(R.id.tv_serving) public TextView tvServing;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.tvName = itemView.findViewById(R.id.tv_name);
-            this.item = itemView.findViewById(R.id.item_recipe);
-            this.item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallBack.onItemClick(recipes.get(position));
-                }
-            });
+            ButterKnife.bind(this, itemView);
         }
 
         public void prepare(Recipe recipe) {
+
             tvName.setText(recipe.name);
+            tvServing.setText(Integer.toString(recipe.servings));
+        }
+
+        @OnClick(R.id.item_recipe)
+        public void handleClick() {
+            mCallBack.onItemClick(recipes.get(position));
         }
     }
 }
