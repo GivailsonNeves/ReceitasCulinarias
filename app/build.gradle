@@ -39,8 +39,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test:rules:0.5'
-    androidTestImplementation 'com.android.support.test:runner:0.5'
+
+
+
+
+    // https://mvnrepository.com/artifact/com.android.support.test.espresso/espresso-contrib
+    implementation group: 'com.android.support.test.espresso', name: 'espresso-contrib', version: '2.1'
+
 }

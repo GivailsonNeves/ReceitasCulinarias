@@ -2,16 +2,13 @@
 <resources>
     <dimen name="item_distance_separator">10dp</dimen>
     <dimen name="default_padding">15dp</dimen>
-<<<<<<< HEAD
     <dimen name="label_spacing">5dp</dimen>
     <dimen name="view_min_size">1dp</dimen>
     <dimen name="title_font_size">24sp</dimen>
-=======
 
     <!--
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
->>>>>>> 03567e80dab3401954432f228b1b4279d9df5f01
 </resources>
