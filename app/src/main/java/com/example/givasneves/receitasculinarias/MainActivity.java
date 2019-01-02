@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.givasneves.receitasculinarias.adapter.RecipeListAdapter;
+import com.example.givasneves.receitasculinarias.adapter.RecipeStepsAdapter;
 import com.example.givasneves.receitasculinarias.fragment.RecipeContentFragment;
-import com.example.givasneves.receitasculinarias.fragment.RecipeListFragment;
 import com.example.givasneves.receitasculinarias.model.Recipe;
+import com.example.givasneves.receitasculinarias.model.Step;
 import com.example.givasneves.receitasculinarias.view.RecipeActivity;
+import com.example.givasneves.receitasculinarias.view.VideoPlayerActivity;
 
-public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnRecipeClickListener {
+public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnRecipeClickListener, RecipeStepsAdapter.OnStepClickListener {
 
     SharedPreferences sharedPref;
 
@@ -48,8 +50,13 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
             fragmentManager.beginTransaction()
                     .replace(R.id.recipe_content_fragment, recipeContentFragment)
                     .commit();
-
-
         }
+    }
+
+    @Override
+    public void onItemClick(Step step) {
+        Intent intentVideoPlayer = new Intent(this, VideoPlayerActivity.class);
+        intentVideoPlayer.putExtra(getString(R.string.parceable_step), step);
+        startActivity(intentVideoPlayer);
     }
 }

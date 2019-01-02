@@ -5,6 +5,7 @@
     <dimen name="label_spacing">5dp</dimen>
     <dimen name="view_min_size">1dp</dimen>
     <dimen name="title_font_size">24sp</dimen>
+    <dimen name="section_font_size">20sp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
