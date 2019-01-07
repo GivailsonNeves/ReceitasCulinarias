@@ -6,11 +6,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.example.givasneves.receitasculinarias.MainActivity;
 import com.example.givasneves.receitasculinarias.R;
+import com.example.givasneves.receitasculinarias.model.Recipe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +22,9 @@ import butterknife.ButterKnife;
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
-    private static final String RECIPE_SELECTED = "com.example.givasneves.receitasculinarias.RECIPE_SELECTED";
+    public static final String RECIPE_SELECTED = "com.example.givasneves.receitasculinarias.RECIPE_SELECTED";
+    public static  final String RECIPE_PARCEABLE_NAME = "RecipSelected";
+    private static Recipe recipe;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -32,19 +36,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.btn_open_app, pendingIntent);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("recipe", Context.MODE_PRIVATE);
-
-        String recipeName = sharedPreferences.getString("selected", "");
-        views.setTextViewText(R.id.tvRecipeName, recipeName);
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                String recipeName = sharedPreferences.getString("selected", "");
-                views.setTextViewText(R.id.tvRecipeName, recipeName);
-            }
-        });
-
+        if(recipe != null) {
+            views.setTextViewText(R.id.tvRecipeName, recipe.name);
+        }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
@@ -72,7 +66,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (intent.getAction().equals(RECIPE_SELECTED)) {
-            //updateAppWidget(context,)
+            recipe = (Recipe) intent.getParcelableExtra(RECIPE_PARCEABLE_NAME);
+            Log.i(RecipeWidgetProvider.class.getName(), recipe.name);
+
         }
     }
 }

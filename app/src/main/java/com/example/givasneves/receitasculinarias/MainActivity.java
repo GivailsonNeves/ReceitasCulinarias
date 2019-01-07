@@ -1,13 +1,10 @@
 package com.example.givasneves.receitasculinarias;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.givasneves.receitasculinarias.adapter.RecipeListAdapter;
 import com.example.givasneves.receitasculinarias.adapter.RecipeStepsAdapter;
@@ -16,25 +13,22 @@ import com.example.givasneves.receitasculinarias.model.Recipe;
 import com.example.givasneves.receitasculinarias.model.Step;
 import com.example.givasneves.receitasculinarias.view.RecipeActivity;
 import com.example.givasneves.receitasculinarias.view.VideoPlayerActivity;
+import com.example.givasneves.receitasculinarias.widget.RecipeWidgetProvider;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnRecipeClickListener, RecipeStepsAdapter.OnStepClickListener {
-
-    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPref = this.getSharedPreferences("recipe", Context.MODE_PRIVATE);
     }
 
     @Override
     public void onItemClick(Recipe recipe) {
-        Toast.makeText(this, recipe.name, Toast.LENGTH_SHORT).show();
+
         View view = findViewById(R.id.recipe_content_fragment);
 
-        sharedPref.edit()
-                .putString("selected", recipe.name);
+        sendRecipeSelectedToWidget(recipe);
 
         if( view == null ) {
 
@@ -51,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
                     .replace(R.id.recipe_content_fragment, recipeContentFragment)
                     .commit();
         }
+    }
+
+    private void sendRecipeSelectedToWidget(Recipe recipe) {
+        Intent intentRecipeSelected = new Intent(RecipeWidgetProvider.RECIPE_SELECTED);
+        intentRecipeSelected.putExtra(RecipeWidgetProvider.RECIPE_PARCEABLE_NAME, recipe);
+        getApplicationContext().sendBroadcast(intentRecipeSelected);
     }
 
     @Override
