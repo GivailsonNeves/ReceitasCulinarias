@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.givasneves.receitasculinarias.R;
+import com.example.givasneves.receitasculinarias.adapter.RecipeStepsAdapter;
 import com.example.givasneves.receitasculinarias.fragment.RecipeContentFragment;
 import com.example.givasneves.receitasculinarias.model.Recipe;
+import com.example.givasneves.receitasculinarias.model.Step;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements RecipeStepsAdapter.OnStepClickListener {
 
     private Recipe recipe;
 
@@ -58,5 +60,10 @@ public class RecipeActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onItemClick(Step step) {
+        Intent intentVideoPlayer = new Intent(this, VideoPlayerActivity.class);
+        intentVideoPlayer.putExtra(getString(R.string.parceable_step), step);
+        startActivity(intentVideoPlayer);
+    }
 }

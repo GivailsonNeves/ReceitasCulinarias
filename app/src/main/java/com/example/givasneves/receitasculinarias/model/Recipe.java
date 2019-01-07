@@ -54,4 +54,14 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
+
+    public String getIngredientsHtml() {
+        StringBuffer htmlText = new StringBuffer();
+        if(this.ingredients.size() > 0) {
+            for(Ingredient i : this.ingredients) {
+                htmlText.append("<p> <strong>" + i.quantity + " " + i.measure +"</strong> - " + i.ingredient + "</p>");
+            }
+        }
+        return htmlText.toString();
+    }
 }
