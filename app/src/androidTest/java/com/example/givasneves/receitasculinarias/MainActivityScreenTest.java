@@ -50,6 +50,7 @@ public class MainActivityScreenTest {
         //Verifica se a nova tela aberta contem o item desejado
         onView(withId(R.id.recipe_title)).check(matches(withText(BROWNIE_TEXT)));
 
+
     }
 
 }
