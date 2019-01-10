@@ -1,5 +1,7 @@
 package com.example.givasneves.receitasculinarias;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -47,16 +49,16 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         }
     }
 
-    private void sendRecipeSelectedToWidget(Recipe recipe) {
-        Intent intentRecipeSelected = new Intent(RecipeWidgetProvider.RECIPE_SELECTED);
-        intentRecipeSelected.putExtra(RecipeWidgetProvider.RECIPE_PARCEABLE_NAME, recipe);
-        getApplicationContext().sendBroadcast(intentRecipeSelected);
-    }
-
     @Override
     public void onItemClick(Step step) {
         Intent intentVideoPlayer = new Intent(this, VideoPlayerActivity.class);
         intentVideoPlayer.putExtra(getString(R.string.parceable_step), step);
         startActivity(intentVideoPlayer);
+    }
+
+    public void sendRecipeSelectedToWidget(Recipe recipe) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
+        RecipeWidgetProvider.updateWidget(this, appWidgetManager, recipe, appWidgetIds);
     }
 }

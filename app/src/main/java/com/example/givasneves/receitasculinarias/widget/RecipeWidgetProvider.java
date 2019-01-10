@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -27,9 +28,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     private static Recipe recipe;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+                                Recipe _recipe, int appWidgetId) {
+        recipe = _recipe;
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
         Intent intent = new Intent(context, MainActivity.class);
@@ -37,7 +38,10 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.btn_open_app, pendingIntent);
 
         if(recipe != null) {
-            views.setTextViewText(R.id.tvRecipeName, recipe.name);
+            views.setTextViewText(R.id.tv_recipe_name, recipe.name);
+            views.setTextViewText(R.id.tv_servings, "Serve " + recipe.servings);
+            views.setTextViewText(R.id.tv_recipe_itens, Html.fromHtml(recipe.getIngredientsHtml()));
+
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -48,8 +52,17 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, recipe, appWidgetId);
         }
+    }
+
+    public static void updateWidget(Context context, AppWidgetManager appWidgetManager,
+                                    Recipe recipe, int[] appWidgetIds) {
+
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, recipe, appWidgetId);
+        }
+
     }
 
     @Override
