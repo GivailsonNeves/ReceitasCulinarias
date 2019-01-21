@@ -1,3 +1,8 @@
+/*
+ * Código copiado dê: https://github.com/dannyroa/espresso-samples/tree/master/RecyclerView/app/src/androidTest/java/com/dannyroa/espresso_samples
+ * Para facilitar o uso de matchers com o Recycler view
+ */
+
 package com.example.givasneves.receitasculinarias;
 
 import android.content.res.Resources;
