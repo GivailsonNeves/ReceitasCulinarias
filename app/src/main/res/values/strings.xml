@@ -2,11 +2,8 @@
     <string name="app_name">Receitas Culinárias</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_load_recipes">Erro ao carregar lista de receitas</string>
     <string name="tx_label_serve">Serve:</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <string name="ingredientes">Ingredientes:</string>
     <string name="parceable_step">pStep</string>
     <string name="ver_no_aplicativo">Ver no aplicativo</string>

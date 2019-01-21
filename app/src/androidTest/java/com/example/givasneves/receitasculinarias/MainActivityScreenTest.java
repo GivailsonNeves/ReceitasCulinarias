@@ -1,27 +1,25 @@
 package com.example.givasneves.receitasculinarias;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.test.rule.ActivityTestRule;
-
-import com.example.givasneves.receitasculinarias.adapter.RecipeListAdapter;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.anything;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityScreenTest {
@@ -40,6 +38,24 @@ public class MainActivityScreenTest {
     }
 
     @Test
+    public void changeOrientation_check() {
+
+        //verifica se a lista foi carregada no recycler view
+        onView(new RecyclerViewMatcher(R.id.rv_recipe_list)
+                .atPositionOnView(BROWNIE_POSITION, R.id.tv_name)).check(matches(withText(BROWNIE_TEXT)));
+
+        //rotaciona a tela para testar o stado
+        rotateScreen();
+
+        //verifica se a lista foi carregada no recycler view
+        onView(new RecyclerViewMatcher(R.id.rv_recipe_list)
+                .atPositionOnView(BROWNIE_POSITION, R.id.tv_name)).check(matches(withText(BROWNIE_TEXT)));
+
+        //devolve a tela para a posição original
+        rotateScreen();
+    }
+
+    @Test
     public void clickGridViewItem_OpenOrderActivity() {
 
         //executa o click no segundo item do recyclerview
@@ -50,7 +66,28 @@ public class MainActivityScreenTest {
         //Verifica se a nova tela aberta contem o item desejado
         onView(withId(R.id.recipe_title)).check(matches(withText(BROWNIE_TEXT)));
 
+        //rotaciona a tela
+        rotateScreen();
 
+        //Verifica se a nova tela aberta contem o item desejado
+        onView(withId(R.id.recipe_title)).check(matches(withText(BROWNIE_TEXT)));
+
+        //rotaciona a tela
+        rotateScreen();
+
+    }
+
+    private void rotateScreen() {
+        Context context = InstrumentationRegistry.getTargetContext();
+        int orientation = context.getResources().getConfiguration().orientation;
+
+        MainActivity activity = mActivityTestRule.getActivity();
+
+        activity.setRequestedOrientation(
+                (orientation == Configuration.ORIENTATION_PORTRAIT) ?
+                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE :
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        );
     }
 
 }
