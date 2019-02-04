@@ -2,7 +2,9 @@ package com.example.givasneves.receitasculinarias.view;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.session.PlaybackState;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +39,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private SimpleExoPlayer sep;
     private Step step;
+    private Bundle bundleData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,51 @@ public class VideoPlayerActivity extends AppCompatActivity {
         initializeExoPlayer();
 
         step = getIntent().getParcelableExtra(getString(R.string.parceable_step));
-        preparePlayer();
-
+        this.bundleData = savedInstanceState;
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setHomeButtonEnabled(true);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Build.VERSION.SDK_INT <=  Build.VERSION_CODES.LOLLIPOP) {
+            preparePlayer();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(Build.VERSION.SDK_INT >  Build.VERSION_CODES.LOLLIPOP) {
+            preparePlayer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(Build.VERSION.SDK_INT <=  Build.VERSION_CODES.LOLLIPOP) {
+            sep.release();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(Build.VERSION.SDK_INT >  Build.VERSION_CODES.LOLLIPOP) {
+            sep.release();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(sep != null) {
+            outState.putLong("player-position", sep.getCurrentPosition());
+            outState.putBoolean("player-playing", sep.getPlayWhenReady());
+        }
     }
 
     private void initializeExoPlayer() {
@@ -74,6 +117,16 @@ public class VideoPlayerActivity extends AppCompatActivity {
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             sep.prepare(mediaSource);
+            if(bundleData != null) {
+                long playerPosition = bundleData.getLong("player-position", 0);
+                boolean playWhenReady = bundleData.getBoolean("player-playing", false);
+
+                sep.setPlayWhenReady(playWhenReady);
+
+                if( playerPosition != 0) {
+                    sep.seekTo(playerPosition);
+                }
+            }
         } else {
             sepv.setVisibility(View.GONE);
         }
@@ -83,7 +136,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //Write your logic here
                 this.finish();
                 return true;
             default:
