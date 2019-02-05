@@ -1,7 +1,5 @@
 package com.example.givasneves.receitasculinarias;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -57,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     }
 
     public void sendRecipeSelectedToWidget(Recipe recipe) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
-        RecipeWidgetProvider.updateWidget(this, appWidgetManager, recipe, appWidgetIds);
+        RecipeWidgetProvider.sendRefreshBroadcast(this, recipe);
     }
 }

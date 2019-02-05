@@ -35,7 +35,6 @@
         <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.example.givasneves.receitasculinarias.RECIPE_SELECTED"/>
             </intent-filter>
 
             <meta-data

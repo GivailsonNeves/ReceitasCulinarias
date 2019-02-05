@@ -12,33 +12,22 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/default_padding"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
+            android:text="@string/lista_de_igrendientes" />
 
-            android:layout_weight="1"
-            android:text="Título receita" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_servings" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
         android:orientation="vertical"
         android:padding="@dimen/default_padding">
 
@@ -47,6 +36,7 @@
             android:layout_width="match_parent"
             android:divider="#eeeeee"
             android:dividerHeight="1dp"
+            android:layout_weight="1"
             tools:listitem="@layout/recipe_widget_item"
             android:layout_height="wrap_content">
         </ListView>
@@ -60,6 +50,6 @@
             android:layout_gravity="right"
             android:text="@string/ver_no_aplicativo"
             android:textStyle="bold" />
+
     </LinearLayout>
 </LinearLayout>
-    <!--https://stackoverflow.com/questions/7313785/how-to-use-listview-in-a-widget-->

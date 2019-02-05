@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/default_padding"
-    android:orientation="vertical"
-    tools:context=".view.VideoPlayerActivity">
+    android:layout_weight="1"
+    android:layout_height="wrap_content">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/sepRecipeStep"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="@dimen/view_min_size" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding"
+        android:orientation="vertical"
+        tools:context=".view.VideoPlayerActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/sepRecipeStep"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <ImageView
+            android:id="@+id/ivThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,33 +32,33 @@
                 android:id="@+id/tv_step_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:paddingTop="@dimen/default_padding"
                 android:paddingBottom="@dimen/default_padding"
                 android:textSize="@dimen/section_font_size" />
         </LinearLayout>
-    </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnPrev"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight="1"
-            android:text="Anterior" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Próxima" />
+            <Button
+                android:id="@+id/btnPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_weight="1"
+                android:text="Anterior" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Próxima" />
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -42,14 +44,14 @@ public class MainActivityScreenTest {
 
         //verifica se a lista foi carregada no recycler view
         onView(new RecyclerViewMatcher(R.id.rv_recipe_list)
-                .atPositionOnView(BROWNIE_POSITION, R.id.tv_name)).check(matches(withText(BROWNIE_TEXT)));
+                .atPosition(BROWNIE_POSITION)).check(matches(hasDescendant(withText(BROWNIE_TEXT))));
 
         //rotaciona a tela para testar o stado
         rotateScreen();
 
         //verifica se a lista foi carregada no recycler view
-        onView(new RecyclerViewMatcher(R.id.rv_recipe_list)
-                .atPositionOnView(BROWNIE_POSITION, R.id.tv_name)).check(matches(withText(BROWNIE_TEXT)));
+        new RecyclerViewMatcher(R.id.rv_recipe_list).atPosition(BROWNIE_POSITION)
+                .matches(hasDescendant(withText(BROWNIE_TEXT)));
 
         //devolve a tela para a posição original
         rotateScreen();
@@ -59,18 +61,18 @@ public class MainActivityScreenTest {
     public void clickGridViewItem_OpenOrderActivity() {
 
         //executa o click no segundo item do recyclerview
-        onView(ViewMatchers.withId(R.id.rv_recipe_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIE_POSITION,
-                        click()));
+        onView(withId(R.id.rv_recipe_list))
+                .perform(RecyclerViewActions.scrollToPosition(BROWNIE_POSITION),
+                        click());
 
         //Verifica se a nova tela aberta contem o item desejado
-        onView(withId(R.id.recipe_title)).check(matches(withText(BROWNIE_TEXT)));
+        ViewMatchers.withId(R.id.recipe_title).matches(withText(BROWNIE_TEXT));
 
         //rotaciona a tela
         rotateScreen();
 
         //Verifica se a nova tela aberta contem o item desejado
-        onView(withId(R.id.recipe_title)).check(matches(withText(BROWNIE_TEXT)));
+        ViewMatchers.withId(R.id.recipe_title).matches(withText(BROWNIE_TEXT));
 
         //rotaciona a tela
         rotateScreen();

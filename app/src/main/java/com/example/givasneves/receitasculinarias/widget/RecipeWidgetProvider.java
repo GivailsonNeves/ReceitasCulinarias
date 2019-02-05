@@ -3,70 +3,54 @@ package com.example.givasneves.receitasculinarias.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.example.givasneves.receitasculinarias.MainActivity;
 import com.example.givasneves.receitasculinarias.R;
 import com.example.givasneves.receitasculinarias.model.Recipe;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
-    public static final String RECIPE_SELECTED = "com.example.givasneves.receitasculinarias.RECIPE_SELECTED";
-    public static  final String RECIPE_PARCEABLE_NAME = "RecipSelected";
+    public static  final String RECIPE_PARCEABLE_NAME = "RecipeSelected";
     private static Recipe recipe;
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                Recipe _recipe, int appWidgetId) {
-        recipe = _recipe;
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
-        final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+
+        final RemoteViews views = new RemoteViews(
+                context.getPackageName(), R.layout.recipe_widget_provider
+        );
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.btn_open_app, pendingIntent);
 
-        if(recipe != null) {
-            views.setTextViewText(R.id.tv_recipe_name, recipe.name);
-            views.setTextViewText(R.id.tv_servings, "Serve " + recipe.servings);
-            views.setTextViewText(R.id.tv_recipe_itens, Html.fromHtml(recipe.getIngredientsHtml()));
 
-        }
+        Intent IntentListView = new Intent(context, RecipeRemoteViewsService.class);
+        views.setRemoteAdapter(R.id.widgetListView, IntentListView);
+
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
+    }
+
+    public static Recipe getRecipe() {
+        return RecipeWidgetProvider.recipe;
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         for (int appWidgetId : appWidgetIds) {
-//            new RemoteViews(
-//                    context.getPackageName(),
-//                    R.layout.collection_wiget
-//            )
-            updateAppWidget(context, appWidgetManager, recipe, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-    }
-
-    public static void updateWidget(Context context, AppWidgetManager appWidgetManager,
-                                    Recipe recipe, int[] appWidgetIds) {
-
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, recipe, appWidgetId);
-        }
-
     }
 
     @Override
@@ -79,14 +63,25 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    public static void sendRefreshBroadcast(Context context, Recipe recipe) {
+
+        RecipeWidgetProvider.recipe = recipe;
+        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.setComponent(new ComponentName(context, RecipeWidgetProvider.class));
+        context.sendBroadcast(intent);
+    }
+
     @Override
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-        if (intent.getAction().equals(RECIPE_SELECTED)) {
-            recipe = (Recipe) intent.getParcelableExtra(RECIPE_PARCEABLE_NAME);
-            Log.i(RecipeWidgetProvider.class.getName(), recipe.name);
+    public void onReceive(final Context context, Intent intent) {
+        final String action = intent.getAction();
+        if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+
+            AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+            ComponentName cn = new ComponentName(context, RecipeWidgetProvider.class);
+            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetListView);
 
         }
+        super.onReceive(context, intent);
     }
 }
 

@@ -63,7 +63,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepsAdap
     @Override
     public void onItemClick(Step step) {
         Intent intentVideoPlayer = new Intent(this, VideoPlayerActivity.class);
+
         intentVideoPlayer.putExtra(getString(R.string.parceable_step), step);
+        intentVideoPlayer.putExtra("recipe", recipe);
         startActivity(intentVideoPlayer);
     }
 }
