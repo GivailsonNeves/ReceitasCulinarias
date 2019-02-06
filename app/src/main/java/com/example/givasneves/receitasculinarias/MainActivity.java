@@ -17,6 +17,8 @@ import com.example.givasneves.receitasculinarias.widget.RecipeWidgetProvider;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnRecipeClickListener, RecipeStepsAdapter.OnStepClickListener {
 
+    private Recipe recipe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     @Override
     public void onItemClick(Recipe recipe) {
 
+        this.recipe = recipe;
         View view = findViewById(R.id.recipe_content_fragment);
 
         sendRecipeSelectedToWidget(recipe);
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     @Override
     public void onItemClick(Step step) {
         Intent intentVideoPlayer = new Intent(this, VideoPlayerActivity.class);
+
+        intentVideoPlayer.putExtra("recipe", recipe);
         intentVideoPlayer.putExtra(getString(R.string.parceable_step), step);
         startActivity(intentVideoPlayer);
     }

@@ -43,8 +43,8 @@ public class MainActivityScreenTest {
     public void changeOrientation_check() {
 
         //verifica se a lista foi carregada no recycler view
-        onView(new RecyclerViewMatcher(R.id.rv_recipe_list)
-                .atPosition(BROWNIE_POSITION)).check(matches(hasDescendant(withText(BROWNIE_TEXT))));
+        new RecyclerViewMatcher(R.id.rv_recipe_list).atPosition(BROWNIE_POSITION)
+                .matches(hasDescendant(withText(BROWNIE_TEXT)));
 
         //rotaciona a tela para testar o stado
         rotateScreen();
